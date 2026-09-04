@@ -7,50 +7,84 @@
 
 import SwiftUI
 
-struct ButtonView: View {
+struct MainCigarView: View {
     @State var buttonCount = 0
+    @State var isAnimating = false
     var body: some View {
         VStack{
             VStack{
-                HStack{
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(Color.red)
-                        .frame(width: 200, height: 200)
-                        .overlay {
-                            Text("\(buttonCount)")
-                                .foregroundStyle(Color.white)
-                                .bold()
-                        }
+                Text("Hosgeldiniz ,")
+                    .font(.system(size: 30))
+                Text("Nuriye Hanim")
+                    .bold()
+                    .font(.system(size: 30))
+            }.padding()
+            /*Button {
+                buttonCount += 1
+            } label: {
+                VStack{
+                    CigarHeadView()
                 }
-                Button {
-                    buttonCount += 1
-                    print("smoke added")
-                } label: {
-                    CigarView()
-                }
-                
-            }.offset(y:200)
-                .padding(20)
+            }*/
+            CigarView()
+                .scaleEffect(isAnimating ? 1 : 0.00000000000001)
+                .animation(.interpolatingSpring, value: isAnimating)
+        }.onAppear{
+            isAnimating = true
         }
     }
 }
 #Preview {
-    ButtonView()
+    MainCigarView()
 }
 
 struct CigarView: View {
     var body: some View {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
         VStack{
-            RoundedRectangle(cornerRadius: 20)
-                .overlay(content: {
-                    Color("cigarColor")
-                })
-                .frame(width: 200)
-                .overlay{
-                    RoundedRectangle(cornerRadius: 20)
-                        .overlay(Color.white)
-                        .frame(width: 200,height: 300)
-                }
+            VStack{
+                Color("bodyColor")
+                    .cornerRadius(20)
+                    .frame(width: screenWidth * 0.85, height: screenHeight * 0.4)
+                    .overlay {
+                        VStack{
+                            RectangleView()
+                        }
+                    }
+            }
+            VStack{
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(width: screenWidth * 0.9,height: screenHeight * 0.2)
+                    .foregroundColor(Color("settingTabColor"))
+                    .overlay {
+                        Text("Settings")
+                    }
+            }
         }
     }
 }
+
+struct CigarHeadView: View{
+    var body: some View {
+        let MainCigarViewBoundsWidth = UIScreen.main.bounds.width
+        let MainCigarViewBoundsHeight = UIScreen.main.bounds.height
+        VStack{
+            Spacer(minLength: MainCigarViewBoundsWidth * 0.6)
+            VStack{
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(width: MainCigarViewBoundsWidth * 0.7,height: MainCigarViewBoundsHeight * 0.1)
+                    .overlay {
+                        Color("cigarColor")
+                            .cornerRadius(20)
+                        VStack{
+                            Text("Sigara Ekle !")
+                                .foregroundStyle(Color.white)
+                                .bold()
+                        }
+                    }
+            }
+        }
+    }
+}
+
