@@ -59,6 +59,7 @@ struct CigarView: View {
                     .foregroundColor(Color("settingTabColor"))
                     .overlay {
                         Text("Settings")
+                            .bold()
                     }
             }
         }
